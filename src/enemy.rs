@@ -45,12 +45,11 @@ impl Enemy {
         }
     }
 
-    // Delete stray boxes
+    // Delete stray enemies
     fn check_bounds(self: &Self){
         if self.x <= -100 || self.x >= (SCREEN_X + 100 ) as i16 ||
         self.y <= -100 || self.y >= (SCREEN_Y + 100) as i16 {
             drop(self);
-            println!("Deleted a stray enemy");
         }
     }
 }
@@ -69,14 +68,26 @@ impl Spawner {
 
     pub fn make_enemy(self: &mut Self) {
         let mut rng = rand::thread_rng();
-        let _x = rng.gen_range(50..SCREEN_X - self.enemy_size as u16);
-        let _y = rng.gen_range(50..SCREEN_Y - self.enemy_size as u16);
-        let _size = rng.gen_range(10..50);
-        let _x_vel = rng.gen_range(5..15);
+        let _x = rng.gen_range((self.enemy_size as u16)..(SCREEN_X-self.enemy_size as u16));
+        let _y = rng.gen_range(((self.enemy_size*2) as u16)..(SCREEN_Y-(self.enemy_size*2) as u16));
+        let _x_vel;
+        let _y_vel;
+        if _x < SCREEN_X / 2 {
+            _x_vel = rng.gen_range(5..15);
+        } else {
+            _x_vel = rng.gen_range(-15..-5);
+        }
+
+        if _y < SCREEN_Y / 2 {
+            _y_vel = rng.gen_range(-15..-5);
+        } else {
+            _y_vel = rng.gen_range(5..15);
+        }
+
         let _y_vel = rng.gen_range(5..15);
-        let _new_enemy:Enemy = Enemy::new(_x as i16, _y as i16, // x, y
+        let _new_enemy:Enemy = Enemy::new(self.enemy_size as i16, _y as i16, // x, y
                                           _x_vel, _y_vel, // x_vel, y_vel
-                                          _size); // size
+                                          self.enemy_size as u8); // size
         self.enemy_vect.push(_new_enemy);
     }
 

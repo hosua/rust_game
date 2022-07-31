@@ -40,8 +40,8 @@ pub fn main() {
                                          1, // movespeed
                                          20); // size
 
-    let mut _enemy_spawner: Spawner = Spawner::new(10, // Size
-                                                   1000); // Capacity of enemies for this spawner
+    let mut _enemy_spawner: Spawner = Spawner::new(20, // Size
+                                                   100); // Capacity of enemies for this spawner
 
     let mut _enemy_rect_vect:Vec<Rect> = Vec::new(); 
     let mut _cycles: i64 = 0;
