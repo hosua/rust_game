@@ -2,38 +2,39 @@ use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 use sdl2::rect::Rect;
 
-
-static SCREEN_X:u16 = 1200;
-static SCREEN_Y:u16 = 800;
-
-// This is quite an ugly way of doing things, but I dont really know how else to do it. Movement is
-// quite smooth though
 pub struct Player {
     x:u16,
     y:u16,
     size:u8,
     movespeed:u8,
     keys: [bool; 4],
-    // 0, Left
-    // 1, Down
-    // 2, Right
-    // 3, Up
 }
 
-pub fn get_key_num(kcode:Keycode) -> u8{
-    let mut out: u8 = 5;
+pub enum KeyNum {
+    NONE = -1,
+    LEFT = 0,
+    DOWN = 1,
+    RIGHT = 2,
+    UP = 3,
+}
+
+static SCREEN_X:u16 = 1200;
+static SCREEN_Y:u16 = 800;
+
+pub fn get_key_num(kcode:Keycode) -> KeyNum{
+    let mut out: KeyNum = KeyNum::NONE;
     match kcode {
         Keycode::Left => {
-            out = 0;
+            out = KeyNum::LEFT;
         },
         Keycode::Down => {
-            out = 1;
+            out = KeyNum::DOWN;
         },
         Keycode::Right => {
-            out = 2;
+            out = KeyNum::RIGHT;
         },
         Keycode::Up => {
-            out = 3;
+            out = KeyNum::UP;
         },
         _=> {}
     }
@@ -43,7 +44,7 @@ pub fn get_key_num(kcode:Keycode) -> u8{
 impl Player {
     // An example of a constructor
     // See: https://rust-unofficial.github.io/patterns/idioms/ctor.html
-    pub fn new(x: u16, y: u16, size: u8, movespeed: u8) -> Self {
+    pub fn new(x: u16, y: u16, movespeed: u8, size: u8) -> Self {
         let keys: [bool; 4] = [false, false, false, false];
         Self { x, y, size, movespeed, keys }
     }
