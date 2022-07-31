@@ -6,6 +6,8 @@ use sdl2::rect::Rect;
 static SCREEN_X:u16 = 1200;
 static SCREEN_Y:u16 = 800;
 
+// This is quite an ugly way of doing things, but I dont really know how else to do it. Movement is
+// quite smooth though
 pub struct Player {
     x:u16,
     y:u16,
@@ -46,7 +48,7 @@ impl Player {
         Self { x, y, size, movespeed, keys }
     }
 
-    pub fn get_rect(self: &Self) -> Rect {
+    pub fn get_rect(self: &Self)-> Rect {
         let _player_rect = Rect::new(self.x as i32, self.y as i32, 
                                     self.size as u32, self.size as u32);
         return _player_rect;

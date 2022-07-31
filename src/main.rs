@@ -3,14 +3,13 @@ use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 use std::time::Duration;
 
+mod background;
 mod player;
 use player::Player;
 
 // https://docs.rs/sdl2/0.30.0/sdl2/render/struct.Canvas.html
-//
 static SCREEN_X:u16 = 1200;
 static SCREEN_Y:u16 = 800;
-
 
 pub fn main() {
     let sdl_context = sdl2::init().unwrap();
@@ -26,15 +25,16 @@ pub fn main() {
     canvas.set_draw_color(pixels::Color::RGB(0, 255, 255));
     canvas.clear();
     canvas.present();
-
     let mut event_pump = sdl_context.event_pump().unwrap();
-    let mut i = 0;
+    let mut _bg_color: background::Color = background::Color::new(202, 42, 68, 
+                                                                -1, 1, -1);
 
-    let mut _player:Player = Player::new(SCREEN_X / 2, SCREEN_Y / 2, 10, 2);
+    let mut _player:Player = Player::new(SCREEN_X / 2, SCREEN_Y / 2, 
+                                         10, 2);
 
     'running: loop {
-        i = (i + 1) % 255;
-        canvas.set_draw_color(pixels::Color::RGB(i, 128, 255 - i));
+        _bg_color.get_next_nums();
+        canvas.set_draw_color(pixels::Color::RGB(_bg_color.rgb[0], _bg_color.rgb[1], _bg_color.rgb[2]));
         canvas.clear();
         for event in event_pump.poll_iter() {
             match event {
